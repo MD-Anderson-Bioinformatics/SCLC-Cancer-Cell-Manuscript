@@ -1,0 +1,20 @@
+MGI Gene/Marker ID	Symbol	Name	Chr	Qualifier	Annotated Term	Context	Proteoform	Evidence	Inferred From	Reference(s)
+MGI:109326	Bnip3	BCL2/adenovirus E1B interacting protein 3	7		positive regulation of necrotic cell death			ISO	RGD:620800 	J:155856 	
+MGI:1860084	Hebp2	heme binding protein 2	10		positive regulation of necrotic cell death			ISO	Q9Y5Z4 	J:164563 	
+MGI:107364	Il17a	interleukin 17A	1		positive regulation of necrotic cell death			ISO	RGD:2888 	J:155856 	
+MGI:102503	mt-Co2	mitochondrially encoded cytochrome c oxidase II	MT		positive regulation of necrotic cell death			ISO	RGD:621872 	J:155856 	
+MGI:108212	Ripk1	receptor (TNFRSF)-interacting serine-threonine kinase 1	13		positive regulation of necroptotic process			ISO	RGD:1310158 	J:155856 	
+MGI:108212	Ripk1	receptor (TNFRSF)-interacting serine-threonine kinase 1	13		positive regulation of necroptotic process			ISO	Q13546 	J:164563 	
+MGI:108212	Ripk1	receptor (TNFRSF)-interacting serine-threonine kinase 1	13		positive regulation of necrotic cell death			ISO	Q13546 	J:164563 	
+MGI:2154952	Ripk3	receptor-interacting serine-threonine kinase 3	14		positive regulation of necroptotic process			IDA		J:289066 J:289452 J:289082 	
+MGI:2154952	Ripk3	receptor-interacting serine-threonine kinase 3	14		positive regulation of necroptotic process			IMP		J:182381 J:214394 J:214393 J:201937 J:289088 	
+MGI:2154952	Ripk3	receptor-interacting serine-threonine kinase 3	14		positive regulation of necroptotic process			ISO	Q9Y572 	J:164563 	
+MGI:2154952	Ripk3	receptor-interacting serine-threonine kinase 3	14		positive regulation of necrotic cell death			IMP		J:235313 	
+MGI:98488	Slc6a6	solute carrier family 6 (neurotransmitter transporter, taurine), member 6	6		positive regulation of necrotic cell death			ISO	P31641 	J:164563 	
+MGI:95629	Slc6a13	solute carrier family 6 (neurotransmitter transporter, GABA), member 13	6		positive regulation of necrotic cell death			ISO	Q9NSD5 	J:164563 	
+MGI:98834	Trp53	transformation related protein 53	11		positive regulation of programmed necrotic cell death	happens in cardiac muscle cell,is a part of cellular response to hydrogen peroxide		IMP		J:259866 	
+MGI:88222	Tspo	translocator protein	15		positive regulation of necrotic cell death			ISO	RGD:2228 	J:155856 	
+MGI:1927449	Zbp1	Z-DNA binding protein 1	2		positive regulation of necroptotic process			IDA		J:289445 J:289452 J:289066 J:289074 J:289082 J:289096 	
+MGI:1927449	Zbp1	Z-DNA binding protein 1	2		positive regulation of necroptotic process			IMP		J:290369 J:242990 J:242991 	
+MGI:1927449	Zbp1	Z-DNA binding protein 1	2		positive regulation of necroptotic process			ISO	Q9H171 	J:164563 	
+

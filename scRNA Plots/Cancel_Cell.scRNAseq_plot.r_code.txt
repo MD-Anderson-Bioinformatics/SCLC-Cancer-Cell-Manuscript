@@ -1,0 +1,80 @@
+## Violin plot for ASCL1 and VIM
+ggs = c("ASCL1", "BCL2", "VIM", "EMT_score")
+sample_col[1] = "blue"
+sample_col[2] = "orange"
+pdf(file=sprintf("%s.ASCL1.vln_plot.pdf", ssn), width=10)
+for(gg in ggs) {
+  dd = data.frame(log2expression=data[gg, ], sample=factor(sample_id, levels=samples))
+  pval = wilcox.test(log2expression~sample, dd)$p.value
+  pp = ggplot(dd, aes(x=sample, y=log2expression, col=sample)) + geom_violin(trim=T, scale="width", show.legend=F, size=0.75) + ylab(gg) + theme(text=element_text(size=20, face="bold"), axis.text=element_text(size=20, face="bold"), axis.line.y=element_line(size=1), axis.line.x=element_line(size=1), axis.ticks=element_line(size=1), plot.title = element_text(size=24)) + geom_jitter(shape=".", position=position_jitter(0.2), show.legend=F) + scale_colour_manual(values=sample_col) + ggtitle(sprintf("%s , All cells\n Wilcox-test P-value: %.3g", gg, pval))
+  show(pp)
+}
+
+dd = data.frame(ASCL1=data["ASCL1", ], EMT=data["EMT_score", ])
+plot(dd$ASCL1, dd$EMT, pch=20, main=sprintf("All cells\n correlation: %.3f", cor(dd$ASCL1, dd$EMT)), xlab="ASCL1", ylab="EMT_score")
+reg = lm(EMT~ASCL1,data=dd)
+abline(reg, col="red")
+
+data1 = data[, data["ASCL1", ]>0]
+sample_id1 = sample_id[data["ASCL1", ]>0]
+for(gg in ggs) {
+  dd = data.frame(log2expression=data1[gg, ], sample=factor(sample_id1, levels=samples))
+  pval = wilcox.test(log2expression~sample, dd)$p.value
+  pp = ggplot(dd, aes(x=sample, y=log2expression, col=sample)) + geom_violin(trim=T, scale="width", show.legend=F, size=0.75)+ ylab(gg) + theme(text=element_text(size=20, face="bold"), axis.text=element_text(size=20, face="bold"), axis.line.y=element_line(size=1), axis.line.x=element_line(size=1), axis.ticks=element_line(size=1), plot.title = element_text(size=24)) + geom_jitter(shape=".", position=position_jitter(0.2), show.legend=F) + scale_colour_manual(values=sample_col) + ggtitle(sprintf("%s , ASCL1+ cells\n Wilcox-test P-value: %.3g", gg, pval))
+  show(pp)
+}
+
+dd = data.frame(ASCL1=data1["ASCL1", ], EMT=data1["EMT_score", ])
+plot(dd$ASCL1, dd$EMT, pch=20, main=sprintf("ASCL1+ cells\n correlation: %.3f", cor(dd$ASCL1, dd$EMT)), xlab="ASCL1", ylab="EMT_score")
+reg = lm(EMT~ASCL1,data=dd)
+abline(reg, col="red")
+dev.off()
+
+## binary expression plot
+setwd(sprintf("//q1prplungms/projects2/yxi/SCLC.scRNAseq/reports/SCLC.scRNAseq.report_29.JAX_new_data/%s", ssn))
+ASCL1_genes = c("ASCL1", "GRP", "NKX2-1", "FAM155A", "DDC", "SFTA3", "RGS17", "LMO3", "FOXA2", "DNER", "DLL3")
+NEUROD1_genes = c("NEUROD1", "HPCA", "OLFM1", "LGALS7B", "MFNG", "CERKL", "MYBPHL", "AKR1B10", "MFAP4", "PPP1R14A")
+POU2F3_genes = c("POU2F3", "TRPM5", "SOX9", "GFI1B", "CHAT", "ASCL2", "AVIL")
+pctg_gene_list = list("NE genes"=c("NCAM1", "SYP", "CHGA", "UCHL1"), "T-cells"=c("CD247", "CD3G", "CD6", "CD7", "CD8A", "CD96", "GZMK", "IL2RB", "IL32", "ITK", "SH2D1A"), "B-cells"=c("AFF3", "BLK", "BLNK", "CCR6", "CD19", "CD22", "CD37", "CD79A", "CD79B", "CXCR5", "HLA-DOB", "P2RX5", "STAP1"), "RBC"=c("HBQ1", "HBB", "HBA2"),  "NCAM1"=c("NCAM1"), "SYP"=c("SYP"), "CHGA"=c("CHGA"), "UCHL1"=c("UCHL1"), "Epithelial genes"=e_genes, "Mesenchymal genes"=m_genes)
+pdf("binary_expression.pdf", width=8)
+for(gn in names(pctg_gene_list)){
+  ggs = intersect(pctg_gene_list[[gn]], rownames(data))
+  dd = data.frame(TSNE1=tsn[,1], TSNE2=tsn[,2], expression=colSums(data[ggs, , drop=F])>0)
+  dd = dd[order(dd$expression, decreasing=(grepl("genes", gn))), ]
+  a = ggplot(dd, aes(x=TSNE1, y=TSNE2, colour=expression)) + geom_point(size=0.5) + scale_colour_manual(values=c("gray", "blue")) + ggtitle(paste0("\n\n",gn,"\n\n"))
+  show(a)
+}
+dev.off()
+
+pctg_gene_list2 = list("NE genes"=c("NCAM1", "SYP", "CHGA", "UCHL1"), "T-cells"=c("CD247", "CD3G", "CD6", "CD7", "CD8A", "CD96", "GZMK", "IL2RB", "IL32", "ITK", "SH2D1A"), "B-cells"=c("AFF3", "BLK", "BLNK", "CCR6", "CD19", "CD22", "CD37", "CD79A", "CD79B", "CXCR5", "HLA-DOB", "P2RX5", "STAP1"), "RBC"=c("HBQ1", "HBB", "HBA2"))
+split = c()
+for(gn in names(pctg_gene_list2)){
+  split = c(split, rep(gn, length(intersect(rownames(data), pctg_gene_list2[[gn]]))))
+}
+split = factor(split, levels=unique(split))
+data_heat = data[intersect(unlist(pctg_gene_list2), rownames(data)), ]
+ha = HeatmapAnnotation(df=data.frame(sample=sample_id), col=list(sample=sample_col))
+pdf("expression_heatmap.pdf", width=8)
+Heatmap(data_heat, split=split, cluster_rows=T, cluster_columns=F, top_annotation=ha, show_row_dend=F, show_row_names=T, show_column_names=F)
+dev.off()
+```
+
+## WNT gene average expression
+```{r eval=FALSE}
+fix_percentile = function(x, perc) {
+  xmin = quantile(x, perc)
+  xmax = quantile(x, 1-perc)
+  x[x<xmin] = xmin
+  x[x>xmax] = xmax
+  return(x)
+}
+
+wnt_genes = data.frame(read_excel("//q1prplungms/projects2/yxi/SCLC.scRNAseq/doc/GSEA WNT hallmark gene list.xlsx", sheet=1, col_names=T))$Gene
+#wnt_genes = genelists1$Wnt_signaling_genes_021418
+wnt_exp = colMeans(data[wnt_genes, ])
+wnt_exp = fix_percentile(wnt_exp, 0.01)
+pdf("WNT_gene_exp.pdf", width=9, height=7)
+dd = data.frame(TSNE1=tsn[,1], TSNE2=tsn[,2], WNT_gene_exp=wnt_exp)
+ggplot(dd, aes(x=TSNE1, y=TSNE2, colour=WNT_gene_exp)) + geom_point(size=0.75) + scale_colour_gradientn(colors=c("blue", "lightgray", "red"))
+dev.off()
+

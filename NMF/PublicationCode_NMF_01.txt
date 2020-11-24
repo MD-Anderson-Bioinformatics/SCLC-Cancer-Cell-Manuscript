@@ -1,0 +1,11 @@
+for(ik in c(2:7))
+{
+use.this.k <- ik
+res <- nmf(V.matrix, use.this.k, nrun=200 ,.options='vt')
+hm <- consensusmap(res)
+
+}
+
+estim.r <- nmf(V.matrix, 2:7, nrun=50, seed=123456)
+
+plot(estim.r)
